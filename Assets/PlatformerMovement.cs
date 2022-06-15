@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityStandardAssets.CrossPlatformInput;
+
 
 public class PlatformerMovement : MonoBehaviour
 {
@@ -14,15 +14,50 @@ public class PlatformerMovement : MonoBehaviour
     public int jumpAdder;
     float moveVelocity;
 
+    public bool facingRight = true;
+    
+
+    public Animator animator;
     //Grounded Vars
     bool grounded = false;
 
     void Update()
     {
-        //Jumping
-        if (Input.GetButtonDown(Jump))
+        //animator controller
+        animator.SetFloat("Speed", Mathf.Abs(moveVelocity));
+
+        //HorizonMovement
+        moveVelocity = 0;
+
+        //Left Right Movement
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            if (grounded)
+            moveVelocity = -speed;            
+        }
+
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) && facingRight)
+        {
+            Flip(); 
+        }
+
+
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) )
+        {
+            moveVelocity = speed;
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) && !facingRight)
+        {
+            Flip();
+        }
+
+
+
+
+        //Jumping
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.W))
+        {
+            if (grounded == true)
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jump);
                 jumpCount--;
@@ -32,21 +67,14 @@ public class PlatformerMovement : MonoBehaviour
                     grounded = false;
                     jumpCount = jumpAdder;
                 }
+
+                
             }
              
         }
 
-        moveVelocity = 0;
 
-        //Left Right Movement
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
-            moveVelocity = -speed;
-        }
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
-            moveVelocity = speed;
-        }
+        
 
         GetComponent<Rigidbody2D>().velocity = new Vector2(moveVelocity, GetComponent<Rigidbody2D>().velocity.y);
 
@@ -61,5 +89,14 @@ public class PlatformerMovement : MonoBehaviour
         }
 
     }
-   
+    
+    void Flip ()
+    {
+        facingRight = !facingRight;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
+
+
 }

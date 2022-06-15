@@ -3,35 +3,60 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class movement : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    // Start is called before the first frame update
+    //Movement
+    public float speed;
+    float moveVelocity;
 
-    public float MovementSpeed = 1;
+    public bool facingRight = true;
+    
 
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
+    public Animator animator;
 
     void Update()
     {
-     var movement = Input.GetAxis("Horizontal");
-     transform.position += new Vector3 (movement, 0, 0) * Time.deltaTime * MovementSpeed;
+        //animator controller
+        animator.SetFloat("Speed", Mathf.Abs(moveVelocity));
 
-        if (movement == 0)
+        //HorizonMovement
+        moveVelocity = 0;
+
+        //Left Right Movement
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            rb.velocity = new Vector2(0, 0);
+            moveVelocity = -speed;            
         }
+
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) && facingRight)
+        {
+            Flip(); 
+        }
+
+
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) )
+        {
+            moveVelocity = speed;
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) && !facingRight)
+        {
+            Flip();
+        }      
+
+        GetComponent<Rigidbody2D>().velocity = new Vector2(moveVelocity, GetComponent<Rigidbody2D>().velocity.y);
 
     }
 
-    
-        
-        
-        //if player di scene gamecather, dia teleport balik ke checkpoint terakhir
-        
-    
-    
+    void Flip ()
+    {
+        facingRight = !facingRight;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
+
 
 }
