@@ -18,15 +18,9 @@ public class TeleporterScript : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
-        if (Collision.gameObject.CompareTag("EndGame") && ScoreSO.Value >= 500)
+        if (Collision.gameObject.CompareTag("EndGame"))
         {
             SceneManager.LoadScene ("Ending1");
         }
-
-        if (Collision.gameObject.CompareTag("EndGame") && ScoreSO.Value <= 500)
-        {
-            SceneManager.LoadScene ("Ending2");
-        }
-
     }
 }

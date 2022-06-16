@@ -34,7 +34,7 @@ public class TimerScript : MonoBehaviour
         seconds = (int)(TimeLeft % 60);
         minutes = Mathf.Floor(TimeLeft/60);
 
-        Timer.text = "timer: " + minutes + ":"+ seconds;
+        Timer.text = "Timer: " + minutes + ":"+ seconds;
 
         if (TimeLeft <= 0)
         {
