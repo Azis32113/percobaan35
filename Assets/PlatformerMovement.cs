@@ -30,23 +30,23 @@ public class PlatformerMovement : MonoBehaviour
         moveVelocity = 0;
 
         //Left Right Movement
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
             moveVelocity = -speed;            
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) && facingRight)
+        if (Input.GetKey(KeyCode.A) && facingRight)
         {
             Flip(); 
         }
 
 
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) )
+        if (Input.GetKey(KeyCode.D) )
         {
             moveVelocity = speed;
         }
 
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) && !facingRight)
+        if (Input.GetKey(KeyCode.D) && !facingRight)
         {
             Flip();
         }
